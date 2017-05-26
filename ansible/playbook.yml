@@ -1,0 +1,21 @@
+- name: Run the install
+  hosts: all
+  gather_facts: yes    # Run gather_facts to define ansible_env.HOME
+#  vars_files:
+#    - vars/main.yml
+  roles:
+    - role: git
+      become: yes
+    - role: golang
+      become: yes
+    - role: docker
+      become: yes
+    - role: python-dev
+      become: yes
+      python-versions: 
+        - version: 2.7
+    - role: neovim
+      become: yes
+    - role: delve
+    - role: vim-godebug
+ 

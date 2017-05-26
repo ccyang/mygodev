@@ -1,0 +1,22 @@
+---
+#- include: setup-RedHat.yml
+#  when: ansible_os_family == 'RedHat'
+
+#- include: setup-Debian.yml
+#  when: ansible_os_family == 'Debian
+#- name: copy docker.sh to ubuntu 
+#  template: src=docker.sh.j2 dest=/tmp/docker.sh mode=777
+  
+- name: install docker 
+#  command: bash /tmp/docker.sh
+  apt: name=docker.io state=latest
+  
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Install Docker Compose (if configured).
+  copy: src=docker-compose-Linux-x86_64.64 dest=/usr/local/bin/docker-compose mode=0755
+  when: docker_install_compose

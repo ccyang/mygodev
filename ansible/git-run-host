@@ -1,0 +1,1 @@
+192.168.1.251 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant

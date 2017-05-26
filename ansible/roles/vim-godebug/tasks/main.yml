@@ -1,0 +1,41 @@
+---
+- name: Check vim version support for Python
+  command: vim --version | grep +python
+  register: cat
+- debug: var=cat.stdout_lines  
+      
+- name: Install packages
+  apt:
+    name: exuberant-ctags
+    state: 'present'
+    install_recommends: False
+  become: yes
+        
+- name: Pip install python packages
+  command: pip install dbgp pep8 flake8 pyflakes isort
+  become: yes
+
+- name: Copy .vimrc
+  copy:
+    src: vimrc
+    dest: $HOME/.vimrc
+
+      
+- name: Copy .tmux.conf
+  copy:
+    src: tmux.conf
+    dest: $HOME/.tmux.conf
+
+- name: copy kite.vim
+  copy:
+    src: plugin/kite.vim 
+    dest: $HOME/.vim/plugin/
+    
+- name: Install vim-godebug 
+  copy: 
+    src: plugin/godebug.vim
+    dest: $HOME/.vim/plugin/
+      
+    
+- name: ln -s ~/.vimrc ~/.config/nvim/init.vim
+  command: sudo ln -s ~/.vimrc ~/.config/nvim/init.vim
